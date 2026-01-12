@@ -291,22 +291,31 @@ export default function Resume() {
                 
                 <h1 className="text-3xl md:text-4xl font-bold mb-3">ZAIN IMRAN</h1>
                 <p className="text-lg md:text-xl opacity-90 mb-6">Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast</p>
-<div className="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-3 md:gap-8 max-w-2xl mx-auto">
+                
+                // Update the contact section completely for better mobile experience
+<div className="flex flex-wrap justify-center gap-3 md:gap-8">
   {contactItems.map((item, index) => (
-    <div
-      key={index}
-      className={`flex items-center gap-2 text-sm hover:-translate-y-1 transition-all duration-300 cursor-pointer p-2 rounded-lg ${
-        isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-      }`}
-      onClick={item.action}
-    >
-      <item.icon className="flex-shrink-0" />
-      <span className={`truncate ${index === 3 ? 'block' : 'hidden md:block'}`}>
-        {item.text}
-      </span>
-      <span className={`${index === 3 ? 'hidden' : 'md:hidden'} truncate`}>
-        {index === 0 ? 'Call' : index === 1 ? 'Email' : 'GitHub'}
-      </span>
+    <div key={index} className="relative group">
+      <div
+        className="flex items-center gap-2 text-sm hover:-translate-y-1 transition-transform duration-300 cursor-pointer"
+        onClick={item.action}
+      >
+        <item.icon className="text-lg" />
+        {/* Desktop: Show full text */}
+        <span className="hidden md:inline">{item.text}</span>
+        
+        {/* Mobile: Show abbreviated or tooltip */}
+        <span className="md:hidden">
+          {index === 0 ? 'Phone' : index === 1 ? 'Email' : index === 2 ? 'GitHub' : 'Gujrat, PK'}
+        </span>
+      </div>
+      
+      {/* Tooltip for mobile on hover/tap */}
+      {!isMobile && (
+        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none z-50">
+          {item.text}
+        </div>
+      )}
     </div>
   ))}
 </div>
