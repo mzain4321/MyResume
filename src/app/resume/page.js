@@ -224,9 +224,9 @@ export default function Resume() {
       }`}>
         {/* Floating Shapes */}
         <div className="fixed inset-0 pointer-events-none z-0">
-          <div className="absolute w-24 h-24 bg-white bg-opacity-10 rounded-full top-1/5 left-1/12 animate-pulse"></div>
-          <div className="absolute w-36 h-36 bg-white bg-opacity-10 rounded-full top-3/5 right-1/12 animate-pulse animation-delay-2000"></div>
-          <div className="absolute w-20 h-20 bg-white bg-opacity-10 rounded-full bottom-1/5 left-1/5 animate-pulse animation-delay-4000"></div>
+          <div className="absolute w-24 h-24 bg-white bg-opacity-10 rounded-full top-1/5 left-1/12 md:animate-pulse"></div>
+          <div className="absolute w-36 h-36 bg-white bg-opacity-10 rounded-full top-3/5 right-1/12 md:animate-pulse animation-delay-2000"></div>
+          <div className="absolute w-20 h-20 bg-white bg-opacity-10 rounded-full bottom-1/5 left-1/5 md:animate-pulse animation-delay-4000"></div>
         </div>
 
         {/* Theme Toggle */}
@@ -246,7 +246,7 @@ export default function Resume() {
             
             {/* Header */}
             <div className="bg-gradient-to-r from-gray-800 to-gray-700 text-white p-10 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 md:animate-pulse"></div>
               
               <div className="relative z-10">
                 <div className="w-50 h-50 mx-auto mb-5 rounded-full overflow-hidden shadow-lg hover:scale-110 hover:rotate-12 transition-all duration-300">
@@ -422,12 +422,14 @@ export default function Resume() {
           to { opacity: 1; transform: translateX(0); }
         }
         
-        .animate-fade-in {
-          animation: fade-in 1s ease-out;
-        }
-        
-        .animate-slide-in-left {
-          animation: slide-in-left 0.8s ease-out;
+        @media (min-width: 768px) {
+          .animate-fade-in {
+            animation: fade-in 1s ease-out;
+          }
+          
+          .animate-slide-in-left {
+            animation: slide-in-left 0.8s ease-out;
+          }
         }
         
         .animation-delay-200 {
