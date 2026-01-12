@@ -15,30 +15,51 @@ import Image from 'next/image';
 
 export default function Resume() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Add particle effect styles
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes slideDown {
-        from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-        to { transform: translateX(-50%) translateY(0); opacity: 1; }
-      }
-      @keyframes slideUp {
-        from { transform: translateX(-50%) translateY(0); opacity: 1; }
-        to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Add click particle effect
-    const handleClick = (e) => {
-      createParticleEffect(e.clientX, e.clientY);
+    // Check if mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
     };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Add particle effect styles (only for desktop)
+    if (!isMobile) {
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideDown {
+          from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+          to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateX(-50%) translateY(0); opacity: 1; }
+          to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
 
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
-  }, []);
+      // Add click particle effect (only for desktop)
+      const handleClick = (e) => {
+        createParticleEffect(e.clientX, e.clientY);
+      };
+
+      document.addEventListener('click', handleClick);
+      return () => {
+        document.removeEventListener('click', handleClick);
+        window.removeEventListener('resize', checkMobile);
+      };
+    }
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, [isMobile]);
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
@@ -78,6 +99,9 @@ export default function Resume() {
   };
 
   const createParticleEffect = (x, y) => {
+    // Only create particles on desktop
+    if (isMobile) return;
+    
     for (let i = 0; i < 5; i++) {
       const particle = document.createElement('div');
       particle.style.cssText = `
@@ -222,12 +246,14 @@ export default function Resume() {
           ? 'bg-gradient-to-br from-gray-800 to-gray-900 text-gray-100' 
           : 'bg-gradient-to-br from-indigo-400 to-purple-600'
       }`}>
-        {/* Floating Shapes */}
-        <div className="fixed inset-0 pointer-events-none z-0">
-          <div className="absolute w-24 h-24 bg-white bg-opacity-10 rounded-full top-1/5 left-1/12 md:animate-pulse"></div>
-          <div className="absolute w-36 h-36 bg-white bg-opacity-10 rounded-full top-3/5 right-1/12 md:animate-pulse animation-delay-2000"></div>
-          <div className="absolute w-20 h-20 bg-white bg-opacity-10 rounded-full bottom-1/5 left-1/5 md:animate-pulse animation-delay-4000"></div>
-        </div>
+        {/* Floating Shapes - Only show on desktop */}
+        {!isMobile && (
+          <div className="fixed inset-0 pointer-events-none z-0">
+            <div className="absolute w-24 h-24 bg-white bg-opacity-10 rounded-full top-1/5 left-1/12 animate-pulse"></div>
+            <div className="absolute w-36 h-36 bg-white bg-opacity-10 rounded-full top-3/5 right-1/12 animate-pulse animation-delay-2000"></div>
+            <div className="absolute w-20 h-20 bg-white bg-opacity-10 rounded-full bottom-1/5 left-1/5 animate-pulse animation-delay-4000"></div>
+          </div>
+        )}
 
         {/* Theme Toggle */}
         <button
@@ -242,28 +268,30 @@ export default function Resume() {
             isDarkTheme 
               ? 'bg-gray-800 bg-opacity-95' 
               : 'bg-white bg-opacity-95'
-          } backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-1000 animate-fade-in`}>
+          } backdrop-blur-lg rounded-3xl shadow-2xl overflow-hidden ${!isMobile ? 'animate-fade-in' : ''}`}>
             
             {/* Header */}
-            <div className="bg-gradient-to-r from-gray-800 to-gray-700 text-white p-10 text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 md:animate-pulse"></div>
+            <div className="bg-gradient-to-r from-gray-800 to-gray-700 text-white p-6 md:p-10 text-center relative overflow-hidden">
+              {!isMobile && (
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-10 animate-pulse"></div>
+              )}
               
               <div className="relative z-10">
-                <div className="w-50 h-50 mx-auto mb-5 rounded-full overflow-hidden shadow-lg hover:scale-110 hover:rotate-12 transition-all duration-300">
-  <Image
-    width={208}
-    height={280}
-    src="/mypic.jpg" 
-    alt="Zain Imran" 
-    className="w-full h-full object-cover"
-  />
-</div>
+                <div className="w-40 h-40 md:w-50 md:h-50 mx-auto mb-5 rounded-full overflow-hidden shadow-lg hover:scale-110 hover:rotate-12 transition-all duration-300">
+                  <Image
+                    width={208}
+                    height={280}
+                    src="/mypic.jpg" 
+                    alt="Zain Imran" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
                 
-                <h1 className="text-4xl font-bold mb-3">ZAIN IMRAN</h1>
-                <p className="text-xl opacity-90 mb-6">Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast</p>
+                <h1 className="text-3xl md:text-4xl font-bold mb-3">ZAIN IMRAN</h1>
+                <p className="text-lg md:text-xl opacity-90 mb-6">Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast</p>
                 
-                <div className="flex flex-wrap justify-center gap-8">
+                <div className="flex flex-wrap justify-center gap-4 md:gap-8">
                   {contactItems.map((item, index) => (
                     <div
                       key={index}
@@ -271,7 +299,8 @@ export default function Resume() {
                       onClick={item.action}
                     >
                       <item.icon />
-                      <span>{item.text}</span>
+                      <span className="hidden md:inline">{item.text}</span>
+                      <span className="md:hidden">{index === 0 ? 'Phone' : index === 1 ? 'Email' : index === 2 ? 'GitHub' : 'Location'}</span>
                     </div>
                   ))}
                 </div>
@@ -279,15 +308,15 @@ export default function Resume() {
             </div>
 
             {/* Main Content */}
-            <div className="p-10">
+            <div className="p-5 md:p-10">
               {/* Professional Summary */}
-              <section className="mb-10 animate-slide-in-left">
-                <h2 className={`text-3xl font-semibold mb-5 pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
+              <section className="mb-8 md:mb-10">
+                <h2 className={`text-2xl md:text-3xl font-semibold mb-4 md:mb-5 pb-2 md:pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
                   isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                 }`}>
                   <FaUserCircle /> Professional Summary
                 </h2>
-                <div className={`text-lg leading-relaxed p-6 rounded-2xl border-l-4 border-indigo-500 ${
+                <div className={`text-base md:text-lg leading-relaxed p-4 md:p-6 rounded-2xl border-l-4 border-indigo-500 ${
                   isDarkTheme 
                     ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-gray-200' 
                     : 'bg-gradient-to-r from-gray-50 to-gray-100 text-gray-600'
@@ -297,23 +326,23 @@ export default function Resume() {
               </section>
 
               {/* Experience */}
-              <section className="mb-10 animate-slide-in-left animation-delay-200">
-                <h2 className={`text-3xl font-semibold mb-5 pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
+              <section className="mb-8 md:mb-10">
+                <h2 className={`text-2xl md:text-3xl font-semibold mb-4 md:mb-5 pb-2 md:pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
                   isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                 }`}>
                   <FaBriefcase /> Experience
                 </h2>
                 
-                <div className="space-y-5">
+                <div className="space-y-4 md:space-y-5">
                   {experiences.map((exp, index) => (
                     <div
                       key={index}
                       onClick={() => exp.link && window.open(exp.link, '_blank')}
-                      className={`p-6 rounded-2xl shadow-lg hover:-translate-y-2 hover:shadow-xl transition-all duration-300 border-l-4 border-transparent hover:border-indigo-500 cursor-pointer ${
+                      className={`p-4 md:p-6 rounded-2xl shadow-lg ${!isMobile ? 'hover:-translate-y-2 hover:shadow-xl' : ''} transition-all duration-300 border-l-4 border-transparent ${!isMobile ? 'hover:border-indigo-500' : ''} cursor-pointer ${
                         isDarkTheme ? 'bg-gray-700' : 'bg-white'
                       }`}
                     >
-                      <div className={`text-xl font-semibold mb-2 flex items-center gap-2 ${
+                      <div className={`text-lg md:text-xl font-semibold mb-2 flex items-center gap-2 ${
                         isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                       }`}>
                         <exp.icon /> {exp.title}
@@ -321,12 +350,12 @@ export default function Resume() {
                       <div className="text-indigo-500 font-medium mb-2 flex items-center gap-2">
                         <exp.companyIcon /> {exp.company}
                       </div>
-                      <div className={`text-sm mb-4 flex items-center gap-2 ${
+                      <div className={`text-xs md:text-sm mb-3 md:mb-4 flex items-center gap-2 ${
                         isDarkTheme ? 'text-gray-400' : 'text-gray-500'
                       }`}>
                         <exp.dateIcon /> {exp.date}
                       </div>
-                      <div className={`leading-relaxed ${
+                      <div className={`leading-relaxed text-sm md:text-base ${
                         isDarkTheme ? 'text-gray-300' : 'text-gray-600'
                       }`}>
                         <strong className="flex items-center gap-2">
@@ -340,17 +369,17 @@ export default function Resume() {
               </section>
 
               {/* Education */}
-              <section className="mb-10 animate-slide-in-left animation-delay-400">
-                <h2 className={`text-3xl font-semibold mb-5 pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
+              <section className="mb-8 md:mb-10">
+                <h2 className={`text-2xl md:text-3xl font-semibold mb-4 md:mb-5 pb-2 md:pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
                   isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                 }`}>
                   <FaGraduationCap /> Education
                 </h2>
                 
-                <div className={`p-6 rounded-2xl shadow-lg hover:-translate-y-2 hover:shadow-xl transition-all duration-300 ${
+                <div className={`p-4 md:p-6 rounded-2xl shadow-lg ${!isMobile ? 'hover:-translate-y-2 hover:shadow-xl' : ''} transition-all duration-300 ${
                   isDarkTheme ? 'bg-gray-700' : 'bg-white'
                 }`}>
-                  <div className={`text-xl font-semibold mb-2 flex items-center gap-2 ${
+                  <div className={`text-lg md:text-xl font-semibold mb-2 flex items-center gap-2 ${
                     isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                   }`}>
                     <FaUniversity /> Bachelor of Science: Computer Science
@@ -358,12 +387,12 @@ export default function Resume() {
                   <div className="text-indigo-500 font-medium mb-2 flex items-center gap-2">
                     <FaSchool /> ARID AGRICULTURE UNIVERSITY
                   </div>
-                  <div className={`text-sm mb-4 flex items-center gap-2 ${
+                  <div className={`text-xs md:text-sm mb-3 md:mb-4 flex items-center gap-2 ${
                     isDarkTheme ? 'text-gray-400' : 'text-gray-500'
                   }`}>
                     <FaCalendarAlt /> 2022 - Ongoing
                   </div>
-                  <div className={`leading-relaxed flex items-center gap-2 ${
+                  <div className={`leading-relaxed text-sm md:text-base flex items-center gap-2 ${
                     isDarkTheme ? 'text-gray-300' : 'text-gray-600'
                   }`}>
                     <FaLightbulb /> Gaining advanced knowledge in this field while developing projects and gaining practical experience through academic and industry collaborations.
@@ -372,22 +401,22 @@ export default function Resume() {
               </section>
 
               {/* Technical Skills */}
-              <section className="animate-slide-in-left animation-delay-600">
-                <h2 className={`text-3xl font-semibold mb-5 pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
+              <section>
+                <h2 className={`text-2xl md:text-3xl font-semibold mb-4 md:mb-5 pb-2 md:pb-3 border-b-4 border-indigo-500 flex items-center gap-3 ${
                   isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                 }`}>
                   <FaCode /> Technical Skills
                 </h2>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                   {skillCategories.map((category, index) => (
                     <div
                       key={index}
-                      className={`p-6 rounded-2xl shadow-lg hover:-translate-y-2 transition-all duration-300 ${
+                      className={`p-4 md:p-6 rounded-2xl shadow-lg ${!isMobile ? 'hover:-translate-y-2' : ''} transition-all duration-300 ${
                         isDarkTheme ? 'bg-gray-700' : 'bg-white'
                       }`}
                     >
-                      <h4 className={`font-semibold mb-4 text-lg flex items-center gap-2 ${
+                      <h4 className={`font-semibold mb-3 md:mb-4 text-base md:text-lg flex items-center gap-2 ${
                         isDarkTheme ? 'text-gray-100' : 'text-gray-800'
                       }`}>
                         <category.icon /> {category.title}
@@ -396,9 +425,9 @@ export default function Resume() {
                         {category.skills.map((skill, skillIndex) => (
                           <span
                             key={skillIndex}
-                            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-110 transition-transform duration-300 cursor-pointer flex items-center gap-2"
+                            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium ${!isMobile ? 'hover:scale-110' : ''} transition-transform duration-300 cursor-pointer flex items-center gap-1 md:gap-2"
                           >
-                            <skill.icon /> {skill.name}
+                            <skill.icon className="text-xs md:text-base" /> <span>{skill.name}</span>
                           </span>
                         ))}
                       </div>
@@ -412,36 +441,21 @@ export default function Resume() {
       </div>
 
       <style jsx>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(50px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slide-in-left {
-          from { opacity: 0; transform: translateX(-30px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        
+        /* Only apply animations on desktop */
         @media (min-width: 768px) {
+          @keyframes fade-in {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          
+          @keyframes slide-in-left {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+          }
+          
           .animate-fade-in {
             animation: fade-in 1s ease-out;
           }
-          
-          .animate-slide-in-left {
-            animation: slide-in-left 0.8s ease-out;
-          }
-        }
-        
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 0.4s;
-        }
-        
-        .animation-delay-600 {
-          animation-delay: 0.6s;
         }
         
         .animation-delay-2000 {
