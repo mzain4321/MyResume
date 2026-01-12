@@ -291,8 +291,6 @@ export default function Resume() {
                 
                 <h1 className="text-3xl md:text-4xl font-bold mb-3">ZAIN IMRAN</h1>
                 <p className="text-lg md:text-xl opacity-90 mb-6">Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast</p>
-                
-                // Update the entire contact section with a grid layout
 <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-3 md:gap-8 max-w-2xl mx-auto">
   {contactItems.map((item, index) => (
     <div
