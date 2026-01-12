@@ -124,12 +124,32 @@ export default function Resume() {
 
   const contactItems = [
     { icon: FaPhone, text: '+92 3226409363', action: () => copyToClipboard('+92 3226409363') },
-    { icon: FaEnvelope, text: 'mirzazan3334@gmail.com', action: () => copyToClipboard('mirzazan3334@gmail.com') },
+    { icon: FaEnvelope, text: 'mirzazan3334@gmail.com', action: () => window.open('https://mail.google.com/mail/?view=cm&fs=1&to=mirzazan3334@gmail.com', '_blank') },
     { icon: FaGithub, text: 'github.com/mzain4321', action: () => window.open('https://github.com/mzain4321', '_blank') },
     { icon: FaMapMarkerAlt, text: 'Gujrat, Punjab, Pakistan', action: null }
   ];
 
   const experiences = [
+    {
+      title: 'Web Developer',
+      company: 'Software House(Cybersilo)',
+      date: 'Ongoing',
+      icon: FaLaptopCode,
+      companyIcon: FaUserTie,
+      dateIcon: FaCalendarAlt,
+      description: 'Web Development: Working as a Web Developer utilizing React and Laravel, collaborating with the team to build and maintain various web projects.',
+      projectIcon: FaBriefcase
+    },
+    {
+      title: 'Web App Developer',
+      company: 'TrustBridge AI',
+      date: 'July 2025 - Ongoing',
+      icon: FaLaptopCode,
+      companyIcon: FaUserTie,
+      dateIcon: FaCalendarAlt,
+      description: 'TrustBridge AI: Developing a web application using React and Node.js that facilitates collaboration and investment between entrepreneurs and investors. The platform also enables supporters to contribute to cause campaigns.',
+      projectIcon: FaBriefcase
+    },
     {
       title: 'Full-Stack Web Developer',
       company: 'Freelance work',
@@ -138,7 +158,8 @@ export default function Resume() {
       companyIcon: FaUserTie,
       dateIcon: FaCalendarAlt,
       description: 'Gujrat Fans (Deployed): As a freelance developer, I built a single-page e-commerce platform for Gujrat Fans using Next.js, designed to showcase products and info about organization. The application is deployed on Vercel for performance and scalability.',
-      projectIcon: FaShoppingCart
+      projectIcon: FaShoppingCart,
+      link: 'https://gujrat-fans.vercel.app/'
     },
     {
       title: 'Full-Stack Web Developer',
@@ -150,16 +171,7 @@ export default function Resume() {
       description: 'Event Management Web Application: Developed a platform for creating and managing local events using Next.js and MongoDB. Included features like event listings, booking system, and an admin control panel for event organizers.',
       projectIcon: FaCalendarCheck
     },
-    {
-      title: 'Mobile App Developer',
-      company: 'Freelance work',
-      date: 'In Progress',
-      icon: FaMobileAlt,
-      companyIcon: FaUserTie,
-      dateIcon: FaSpinner,
-      description: 'Gujrat Fan Mobile App (Java): Currently developing a mobile application using Android Studio and Java for Gujrat Fans. The app will include features such as product listings, customer inquiry forms, and a user-friendly interface designed for fan retailers and buyers.',
-      projectIcon: FaMobileAlt
-    }
+    
   ];
 
   const skillCategories = [
@@ -296,6 +308,7 @@ export default function Resume() {
                   {experiences.map((exp, index) => (
                     <div
                       key={index}
+                      onClick={() => exp.link && window.open(exp.link, '_blank')}
                       className={`p-6 rounded-2xl shadow-lg hover:-translate-y-2 hover:shadow-xl transition-all duration-300 border-l-4 border-transparent hover:border-indigo-500 cursor-pointer ${
                         isDarkTheme ? 'bg-gray-700' : 'bg-white'
                       }`}
