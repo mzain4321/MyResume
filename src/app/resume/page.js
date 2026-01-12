@@ -217,6 +217,7 @@ export default function Resume() {
       skills: [
         { name: 'Node.js', icon: FaNodeJs },
         { name: 'MongoDB', icon: FaDatabase },
+        { name: 'Supabase', icon: FaDatabase }, 
         { name: 'RESTful APIs', icon: FaExchangeAlt },
         { name: 'JWT Authentication', icon: FaShieldAlt }
       ]
