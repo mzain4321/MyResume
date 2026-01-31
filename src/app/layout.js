@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
- title: "Zain Imran - Full Stack Developer",
+ title: "Zain Imran - MERN Stack Developer",
   description: "Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast"
 };
 
@@ -22,6 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         {children}
       </body>

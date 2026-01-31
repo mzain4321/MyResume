@@ -5,6 +5,7 @@ import { Html, OrbitControls, Sphere, Stars } from "@react-three/drei";
 import { useState, useRef, useMemo, Suspense, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as THREE from "three";
+import { cn } from "@/app/lib/utils";
 import { 
   FaReact, FaHtml5, FaCss3Alt, FaNodeJs, FaPython, 
   FaGithub, FaDocker, FaStripe, FaDatabase, FaCode, FaServer, FaTools 
@@ -105,6 +106,14 @@ const categoryInfo = {
   }
 };
 
+// Categories for mobile view
+const categories = {
+  FRONTEND: "FRONTEND",
+  BACKEND: "BACKEND",
+  DATABASES: "DATABASES",
+  TOOLS: "TOOLS"
+};
+
 function CategoryCard({ category, skills, position }) {
   const info = categoryInfo[category];
   
@@ -187,7 +196,14 @@ function SkillsWeb({ activeCategory, position = [0, 0, 0], scale = 1 }) {
     const geometry = new THREE.BufferGeometry();
     const positions = [];
     const indices = [];
+    
     skillsWithPositions.forEach((s) => positions.push(...s.position));
+    
+    // Validate positions array before creating geometry
+    if (positions.length === 0 || positions.some(p => isNaN(p))) {
+      return geometry; // Return empty geometry if invalid
+    }
+    
     for (let i = 0; i < skillsWithPositions.length; i++) {
         for (let j = i + 1; j < skillsWithPositions.length; j++) {
             const dist = new THREE.Vector3(...skillsWithPositions[i].position).distanceTo(new THREE.Vector3(...skillsWithPositions[j].position));
@@ -266,28 +282,64 @@ export default function SkillsGlobe() {
   }, []);
 
   return (
-    <div className="relative w-full h-[650px] mt-32 overflow-visible rounded-3xl group px-4 pb-20">
+    <div className="relative w-full min-h-[500px] md:h-[650px] mt-10 md:mt-32 overflow-visible rounded-3xl group px-4 pb-20">
+      {/* Background Effect - Only for Desktop */}
       <div className="hidden md:block absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
       
-      <Canvas 
-        camera={{ position: [-0.5, 0, 8], fov: 45 }} 
-        dpr={[1, 2]} 
-        style={{ overflow: 'visible', height: '100%', pointerEvents: 'auto' }}
-      >
-        <Suspense fallback={null}>
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} />
-          <SkillsWeb 
-            activeCategory={activeCategory} 
-            position={isMobile ? [0, 0, 0] : [-1.5, 0, 0]} 
-            scale={isMobile ? 0.85 : 1}
-          />
-        </Suspense>
-        <OrbitControls enableZoom={false} enablePan={false} autoRotate={!activeCategory} autoRotateSpeed={0.5} />
-      </Canvas>
+      {!isMobile ? (
+        <Canvas 
+          camera={{ position: [-0.5, 0, 8], fov: 45 }} 
+          dpr={[1, 2]} 
+          style={{ overflow: 'visible', height: '100%', pointerEvents: 'auto' }}
+        >
+          <Suspense fallback={null}>
+            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} intensity={1} />
+            <SkillsWeb 
+              activeCategory={activeCategory} 
+              position={[-1.5, 0, 0]} 
+              scale={1}
+            />
+          </Suspense>
+          <OrbitControls enableZoom={false} enablePan={false} autoRotate={!activeCategory} autoRotateSpeed={0.5} />
+        </Canvas>
+      ) : (
+        <div className="flex flex-col gap-10 w-full py-8">
+          {Object.keys(categoryInfo).map((catKey) => {
+            const cat = categoryInfo[catKey];
+            const skills = allSkills.filter(s => s.category.toUpperCase() === catKey);
+            
+            return (
+              <div key={catKey} className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/40">
+                    <span className="text-primary text-sm">{cat.icon}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white tracking-wider">{cat.title}</h3>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {skills.map((skill) => (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-white/5 backdrop-blur-md shadow-lg"
+                    >
+                      <span className="text-xl" style={{ color: skill.color }}>{iconMap[skill.name]}</span>
+                      <span className="text-sm font-semibold text-foreground/90">{skill.name}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
-      <div className="absolute inset-0 pointer-events-none p-8 flex flex-col justify-between">
+      <div className="hidden md:flex absolute inset-0 pointer-events-none p-8 flex flex-col justify-between">
         <div className="flex justify-between items-start">
              <CategoryButton 
                label="BACKEND" 
