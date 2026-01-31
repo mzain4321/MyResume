@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-[5000] transition-all duration-300 px-6 py-4",
+        "fixed top-0 left-0 right-0 z-[5000] transition-all duration-300 px-4 py-3 md:px-6 md:py-4",
         scrolled ? "glass-morphism py-3 !border-none !bg-slate-900/90 !backdrop-blur-3xl" : "bg-transparent"
       )}
     >

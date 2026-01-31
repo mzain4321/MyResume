@@ -267,7 +267,7 @@ export default function SkillsGlobe() {
 
   return (
     <div className="relative w-full h-[650px] mt-32 overflow-visible rounded-3xl group px-4 pb-20">
-      <div className="absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
+      <div className="hidden md:block absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
       
       <Canvas 
         camera={{ position: [-0.5, 0, 8], fov: 45 }} 
