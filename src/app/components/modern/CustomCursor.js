@@ -35,16 +35,12 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      const isSilent = target.getAttribute('data-cursor') === 'silent' || target.closest('[data-cursor="silent"]');
-      
       const isInteractive = 
-        !isSilent && (
-          target.tagName === 'A' || 
-          target.tagName === 'BUTTON' || 
-          target.closest('button') || 
-          target.closest('a') ||
-          target.classList.contains('cursor-pointer')
-        );
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('button') || 
+        target.closest('a') ||
+        target.classList.contains('cursor-pointer');
       
       setIsHovered(isInteractive);
     };
