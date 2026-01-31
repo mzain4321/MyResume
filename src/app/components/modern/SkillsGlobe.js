@@ -164,7 +164,7 @@ function CategoryButton({ label, icon, isActive, onMouseEnter, onMouseLeave, chi
   );
 }
 
-function SkillsWeb({ activeCategory }) {
+function SkillsWeb({ activeCategory, position = [0, 0, 0], scale = 1 }) {
   const groupRef = useRef();
   
   const skillsWithPositions = useMemo(() => {
@@ -210,7 +210,7 @@ function SkillsWeb({ activeCategory }) {
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} position={position} scale={scale}>
       <Sphere args={[0.4, 32, 32]}>
         <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={2} wireframe />
       </Sphere>
@@ -278,7 +278,11 @@ export default function SkillsGlobe() {
           <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1} />
-          <SkillsWeb activeCategory={activeCategory} position={isMobile ? [0, 0, 0] : [-1.5, 0, 0]} />
+          <SkillsWeb 
+            activeCategory={activeCategory} 
+            position={isMobile ? [0, 0, 0] : [-1.5, 0, 0]} 
+            scale={isMobile ? 0.85 : 1}
+          />
         </Suspense>
         <OrbitControls enableZoom={false} enablePan={false} autoRotate={!activeCategory} autoRotateSpeed={0.5} />
       </Canvas>
