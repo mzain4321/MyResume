@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function ModernSection({ children, id, title, className }) {
   return (
-    <section id={id} className={`py-24 px-6 relative  ${className}`}>
+    <section id={id} className={`py-12 md:py-24 px-6 relative  ${className}`}>
       <div className="max-w-7xl mx-auto">
         {title && (
           <motion.div

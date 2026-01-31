@@ -52,6 +52,7 @@ export default function Navbar() {
             >
               <a
                 href={link.href}
+                data-cursor="silent"
                 className="group relative block overflow-hidden text-sm font-medium"
               >
                 <span className="block text-foreground/80 transition-transform duration-300 group-hover:-translate-y-full py-2 px-1">
@@ -108,6 +109,7 @@ export default function Navbar() {
                   >
                     <a
                       href={link.href}
+                      data-cursor="silent"
                       onClick={() => setIsOpen(false)}
                       className="text-2xl font-bold text-foreground hover:text-primary transition-colors duration-300"
                     >

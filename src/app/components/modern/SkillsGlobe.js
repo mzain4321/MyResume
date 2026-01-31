@@ -282,7 +282,7 @@ export default function SkillsGlobe() {
   }, []);
 
   return (
-    <div className="relative w-full min-h-[500px] md:h-[650px] mt-10 md:mt-32 overflow-visible rounded-3xl group px-4 pb-20">
+    <div className="relative w-full min-h-[500px] md:h-[650px] mt-10 md:mt-32 overflow-visible rounded-3xl group px-4 pb-10 md:pb-20">
       {/* Background Effect - Only for Desktop */}
       <div className="hidden md:block absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
       
