@@ -222,7 +222,7 @@ function SkillsWeb({ activeCategory }) {
         return (
           <group key={i} position={skill.position}>
             {/* Text labels restored for debugging */}
-            <Html distanceFactor={10} zIndexRange={[100, 0]}>
+            <Html distanceFactor={10} zIndexRange={[2000, 1000]}>
               <div
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold text-white bg-black/70 backdrop-blur-md border transition-all duration-500 whitespace-nowrap shadow-lg cursor-default flex items-center gap-2
                   ${isActive ? "border-primary shadow-[0_0_20px_rgba(59,130,246,0.8)] z-50 text-base" : "border-white/10 opacity-80"}
@@ -237,14 +237,12 @@ function SkillsWeb({ activeCategory }) {
               </div>
             </Html>
             <Sphere args={[0.05, 16, 16]}>
-              <motion.meshStandardMaterial 
-                animate={{ 
-                  emissiveIntensity: isActive ? 8 : 1.5,
-                  opacity: activeCategory && !isActive ? 0.1 : 1
-                }}
+              <meshStandardMaterial 
                 color={skill.color} 
                 emissive={skill.color}
+                emissiveIntensity={isActive ? 4 : 1.5}
                 transparent 
+                opacity={activeCategory && !isActive ? 0.1 : 1}
               />
             </Sphere>
           </group>
@@ -259,7 +257,7 @@ export default function SkillsGlobe() {
 
   return (
     <div className="relative w-full h-[650px] mt-32 overflow-visible rounded-3xl group px-4 pb-20">
-      <div className="absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem]" />
+      <div className="absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
       
       <Canvas 
         camera={{ position: [1.0, 0, 8], fov: 45 }} 
