@@ -5,6 +5,25 @@ import Image from "next/image";
 import { FaGithub, FaEnvelope, FaChevronDown } from "react-icons/fa";
 
 export default function HeroSection() {
+  const handleDownload = async () => {
+    const html2pdf = (await import("html2pdf.js")).default;
+    const element = document.body;
+    const opt = {
+      margin: 10,
+      filename: 'Zain_Imran_Resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#050b18'
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -24,7 +43,7 @@ export default function HeroSection() {
             I'm a Full-Stack Web Developer specialized in Next.js, MongoDB, and creating seamless, high-performance web applications.
           </p>
           
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-6">
             <a href="#contact">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -34,6 +53,16 @@ export default function HeroSection() {
                 Get in touch
               </motion.button>
             </a>
+            
+            <motion.button
+              onClick={handleDownload}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 border-2 border-foreground/20 text-foreground/80 rounded-full font-semibold hover:border-primary hover:text-primary transition-all flex items-center gap-2 group cursor-pointer"
+            >
+              Download CV <FaChevronDown className="-rotate-90 group-hover:rotate-0 transition-transform" />
+            </motion.button>
+
             <div className="flex items-center gap-4">
               <a href="https://github.com/mzain4321" className="text-2xl hover:text-primary transition-colors">
                 <FaGithub />
