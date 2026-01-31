@@ -6,7 +6,7 @@ import Navbar from "./components/modern/Navbar";
 import HeroSection from "./components/modern/HeroSection";
 import ModernSection from "./components/modern/ModernSection";
 import Experience from "./components/modern/Experience";
-import Skills from "./components/modern/Skills";
+import SkillsGlobe from "./components/modern/SkillsGlobe";
 import Projects from "./components/modern/Projects";
 import { FaPaperPlane, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
@@ -46,8 +46,8 @@ export default function Home() {
         <Projects />
       </ModernSection>
 
-      <ModernSection id="skills" title="Technical Arsenal">
-        <Skills />
+      <ModernSection id="skills" title="Technical Arsenal" className="overflow-visible">
+        <SkillsGlobe />
       </ModernSection>
 
       <ModernSection id="contact" title="Get In Touch">
