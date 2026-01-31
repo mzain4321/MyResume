@@ -8,7 +8,7 @@ import ModernSection from "./components/modern/ModernSection";
 import Experience from "./components/modern/Experience";
 import SkillsGlobe from "./components/modern/SkillsGlobe";
 import Projects from "./components/modern/Projects";
-import { FaPaperPlane, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -51,23 +51,52 @@ export default function Home() {
       </ModernSection>
 
       <ModernSection id="contact" title="Get In Touch">
-        <div className="max-w-2xl mx-auto text-center">
-          <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Let's Build Something Together</h3>
-          <p className="text-foreground/70 mb-10 text-lg">
-            I'm currently looking for new opportunities and my inbox is always open. 
-            Whether you have a question or just want to say hi, I'll try my best to get back to you!
-          </p>
-          <a 
-            href="mailto:mirzazan3334@gmail.com" 
-            className="inline-flex items-center gap-2 px-10 py-4 bg-transparent border-2 border-primary text-primary rounded-full font-bold hover:bg-primary/10 transition-all group"
-          >
-            Say Hello <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </a>
-          
-          <div className="flex justify-center gap-8 mt-16 text-2xl text-foreground/50">
-            <a href="https://github.com/mzain4321" className="hover:text-primary transition-colors"><FaGithub /></a>
-            <a href="#" className="hover:text-primary transition-colors"><FaLinkedin /></a>
-            <a href="#" className="hover:text-primary transition-colors"><FaTwitter /></a>
+        <div className="max-w-4xl mx-auto">
+          {/* Contact Info Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
+                <FaMapMarkerAlt />
+              </div>
+              <h4 className="text-white font-bold mb-2">Location</h4>
+              <p className="text-foreground/60 text-sm">Gujrat, Punjab , Pakistan</p>
+            </div>
+
+            <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
+                <FaEnvelope />
+              </div>
+              <h4 className="text-white font-bold mb-2">Email</h4>
+              <p className="text-foreground/60 text-sm truncate w-full">mirzazan3334@gmail.com</p>
+            </div>
+
+            <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
+                <FaPhone />
+              </div>
+              <h4 className="text-white font-bold mb-2">Phone</h4>
+              <p className="text-foreground/60 text-sm">+92-322-6409363</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Let's Build Something Together</h3>
+            <p className="text-foreground/70 mb-10 text-lg">
+              I'm currently looking for new opportunities and my inbox is always open. 
+              Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </p>
+            <a 
+              href="mailto:mirzazan3334@gmail.com" 
+              className="inline-flex items-center gap-2 px-10 py-4 bg-transparent border-2 border-primary text-primary rounded-full font-bold hover:bg-primary/10 transition-all group"
+            >
+              Say Hello <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </a>
+            
+            <div className="flex justify-center gap-8 mt-16 text-2xl text-foreground/50">
+              <a href="https://github.com/mzain4321" className="hover:text-primary transition-colors"><FaGithub /></a>
+              <a href="#" className="hover:text-primary transition-colors"><FaLinkedin /></a>
+              <a href="#" className="hover:text-primary transition-colors"><FaTwitter /></a>
+            </div>
           </div>
         </div>
       </ModernSection>

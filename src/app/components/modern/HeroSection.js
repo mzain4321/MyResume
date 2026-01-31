@@ -25,13 +25,15 @@ export default function HeroSection() {
           </p>
           
           <div className="flex gap-6">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-primary text-white rounded-full font-semibold shadow-lg shadow-primary/20 hover:bg-primary/80 transition-all"
-            >
-              Get in touch
-            </motion.button>
+            <a href="#contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 bg-primary text-white rounded-full font-semibold shadow-lg shadow-primary/20 hover:bg-primary/80 transition-all"
+              >
+                Get in touch
+              </motion.button>
+            </a>
             <div className="flex items-center gap-4">
               <a href="https://github.com/mzain4321" className="text-2xl hover:text-primary transition-colors">
                 <FaGithub />
