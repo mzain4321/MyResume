@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
+        "fixed top-0 left-0 right-0 z-[5000] transition-all duration-300 px-6 py-4",
         scrolled ? "glass-morphism py-3 !border-none !bg-slate-900/90 !backdrop-blur-3xl" : "bg-transparent"
       )}
     >
@@ -52,10 +52,14 @@ export default function Navbar() {
             >
               <a
                 href={link.href}
-                className="relative text-sm font-medium text-foreground/80 hover:text-primary transition-colors duration-200 group py-2"
+                className="group relative block overflow-hidden text-sm font-medium"
               >
-                {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full shadow-[0_0_10px_#3b82f6]" />
+                <span className="block text-foreground/80 transition-transform duration-300 group-hover:-translate-y-full py-2 px-1">
+                  {link.name}
+                </span>
+                <span className="absolute inset-0 block text-primary font-bold transition-transform duration-300 translate-y-full group-hover:translate-y-0 py-2 px-1">
+                  {link.name}
+                </span>
               </a>
             </motion.li>
           ))}

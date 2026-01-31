@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, OrbitControls, Sphere, Stars } from "@react-three/drei";
-import { useState, useRef, useMemo, Suspense } from "react";
+import { useState, useRef, useMemo, Suspense, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as THREE from "three";
 import { 
@@ -254,6 +254,16 @@ function SkillsWeb({ activeCategory }) {
 
 export default function SkillsGlobe() {
   const [activeCategory, setActiveCategory] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <div className="relative w-full h-[650px] mt-32 overflow-visible rounded-3xl group px-4 pb-20">
@@ -268,7 +278,7 @@ export default function SkillsGlobe() {
           <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1} />
-          <SkillsWeb activeCategory={activeCategory} />
+          <SkillsWeb activeCategory={activeCategory} position={isMobile ? [0, 0, 0] : [-1.5, 0, 0]} />
         </Suspense>
         <OrbitControls enableZoom={false} enablePan={false} autoRotate={!activeCategory} autoRotateSpeed={0.5} />
       </Canvas>
