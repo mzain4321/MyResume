@@ -113,7 +113,7 @@ function CategoryCard({ category, skills, position }) {
       initial={{ opacity: 0, y: position === 'top' ? 20 : -20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: position === 'top' ? 20 : -20, scale: 0.95 }}
-      className={`absolute ${position === 'top' ? 'bottom-full mb-6' : 'top-full mt-6'} left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-xl p-6 rounded-2xl w-[320px] z-[100] border border-primary/20 shadow-2xl`}
+      className={`hidden md:block absolute ${position === 'top' ? 'bottom-full mb-6' : 'top-full mt-6'} left-1/2 -translate-x-1/2 bg-slate-900/95 backdrop-blur-xl p-6 rounded-2xl w-[320px] z-[100] border border-primary/20 shadow-2xl`}
     >
       <div className="absolute top-0 right-0 p-4 opacity-20">
          <div className="w-24 h-24 bg-primary/40 blur-3xl rounded-full pointer-events-none" />
@@ -260,7 +260,7 @@ export default function SkillsGlobe() {
       <div className="absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
       
       <Canvas 
-        camera={{ position: [1.0, 0, 8], fov: 45 }} 
+        camera={{ position: [-0.5, 0, 8], fov: 45 }} 
         dpr={[1, 2]} 
         style={{ overflow: 'visible', height: '100%', pointerEvents: 'auto' }}
       >

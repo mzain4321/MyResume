@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/app/lib/utils";
 
 const navLinks = [
@@ -15,6 +15,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +29,7 @@ export default function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-        scrolled ? "glass-morphism py-3" : "bg-transparent"
+        scrolled ? "glass-morphism py-3 !border-none !bg-slate-900/90 !backdrop-blur-3xl" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -40,6 +41,7 @@ export default function Navbar() {
           ZAIN.
         </motion.div>
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex gap-8">
           {navLinks.map((link, i) => (
             <motion.li
@@ -50,22 +52,69 @@ export default function Navbar() {
             >
               <a
                 href={link.href}
-                className="text-sm font-medium hover:text-primary transition-colors duration-200"
+                className="relative text-sm font-medium text-foreground/80 hover:text-primary transition-colors duration-200 group py-2"
               >
                 {link.name}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full shadow-[0_0_10px_#3b82f6]" />
               </a>
             </motion.li>
           ))}
         </ul>
 
-        <div className="md:hidden">
-          {/* Mobile menu button could go here */}
-          <button className="p-2">
-            <div className="w-6 h-0.5 bg-foreground mb-1.5"></div>
-            <div className="w-6 h-0.5 bg-foreground mb-1.5"></div>
-            <div className="w-6 h-0.5 bg-foreground"></div>
+        {/* Mobile Hamburger */}
+        <div className="md:hidden z-50 relative">
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 focus:outline-none"
+            aria-label="Toggle menu"
+          >
+            <div className="w-8 h-8 flex flex-col justify-center items-center gap-1.5">
+              <motion.span 
+                animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+                className="w-8 h-0.5 bg-foreground block transition-transform origin-center"
+              />
+              <motion.span 
+                animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+                className="w-8 h-0.5 bg-foreground block transition-opacity"
+              />
+              <motion.span 
+                animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+                className="w-8 h-0.5 bg-foreground block transition-transform origin-center"
+              />
+            </div>
           </button>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "100vh" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-40 flex flex-col items-center justify-center pt-20"
+            >
+               <ul className="flex flex-col gap-8 text-center">
+                {navLinks.map((link, i) => (
+                  <motion.li
+                    key={link.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + i * 0.1 }}
+                  >
+                    <a
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-2xl font-bold text-foreground hover:text-primary transition-colors duration-300"
+                    >
+                      {link.name}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
