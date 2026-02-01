@@ -164,7 +164,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  background: linear-gradient(90deg, rgba(59,130,246,1), rgba(34,211,238,0.95));
+  background: linear-gradient(90deg, rgb(48, 104, 187), rgba(68, 55, 145, 0.95));
   background-size: 200% 100%;
   color: white;
   transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
