@@ -1,6 +1,4 @@
-
 "use client";
-
 import HeroCanvas from "./components/modern/HeroCanvas";
 import Navbar from "./components/modern/Navbar";
 import HeroSection from "./components/modern/HeroSection";
@@ -93,9 +91,9 @@ export default function Home() {
             </a>
             
             <div className="flex justify-center gap-8 mt-16 text-2xl text-foreground/50">
-              <a href="https://github.com/mzain4321" className="hover:text-primary transition-colors"><FaGithub /></a>
-              <a href="#" className="hover:text-primary transition-colors"><FaLinkedin /></a>
-              <a href="#" className="hover:text-primary transition-colors"><FaTwitter /></a>
+              <a href="https://github.com/mzain4321" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-primary transition-colors"><FaGithub /></a>
+              <a href="https://www.linkedin.com/in/zain-imran-792545320" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-primary transition-colors"><FaLinkedin /></a>
+              <a href="#" className="hover:text-primary transition-colors" aria-label="Twitter"><FaTwitter /></a>
             </div>
           </div>
         </div>

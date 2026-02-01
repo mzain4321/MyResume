@@ -35,7 +35,7 @@ export default function Header() {
   <Link href="https://github.com/mzain4321" target="_blank" className="text-2xl hover:-translate-y-1 hover:scale-110 transition-transform duration-300">
     <FontAwesome icon="github" brand />
   </Link>
-  <Link href="#" target="_blank" className="text-2xl hover:-translate-y-1 hover:scale-110 transition-transform duration-300">
+  <Link href="https://www.linkedin.com/in/zain-imran-792545320" target="_blank" rel="noopener noreferrer" className="text-2xl hover:-translate-y-1 hover:scale-110 transition-transform duration-300">
     <FontAwesome icon="linkedin" brand />
   </Link>
   <Link href="#" target="_blank" className="text-2xl hover:-translate-y-1 hover:scale-110 transition-transform duration-300">

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FaGithub, FaEnvelope, FaChevronDown } from "react-icons/fa";
+import { FaGithub, FaEnvelope, FaLinkedin, FaChevronDown } from "react-icons/fa";
 
 export default function HeroSection() {
   return (
@@ -49,13 +49,16 @@ export default function HeroSection() {
             </motion.a>
 
             <div className="flex items-center gap-4">
-              <a href="https://github.com/mzain4321" className="text-2xl hover:text-primary transition-colors">
-                <FaGithub />
-              </a>
-              <a href="mailto:mirzazan3334@gmail.com" className="text-2xl hover:text-primary transition-colors">
-                <FaEnvelope />
-              </a>
-            </div>
+                <a href="https://github.com/mzain4321" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-2xl hover:text-primary transition-colors">
+                  <FaGithub />
+                </a>
+                <a href="https://www.linkedin.com/in/zain-imran-792545320" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-2xl hover:text-primary transition-colors">
+                  <FaLinkedin />
+                </a>
+                <a href="mailto:mirzazan3334@gmail.com" aria-label="Email" className="text-2xl hover:text-primary transition-colors">
+                  <FaEnvelope />
+                </a>
+              </div>
           </div>
         </motion.div>
 
