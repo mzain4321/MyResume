@@ -8,6 +8,7 @@
   --accent: #22d3ee;
   --card: rgba(15, 23, 42, 0.7);
   --card-border: rgba(51, 65, 85, 0.5);
+  --nav-offset: 88px; /* height of fixed navbar; adjust if navbar height changes */
 }
 
 @theme inline {
@@ -33,7 +34,7 @@ html {
 
 /* Ensure sections with IDs are visible when navigated to (nav offset) */
 section[id] {
-  scroll-margin-top: 88px;
+  scroll-margin-top: calc(var(--nav-offset) + 8px);
 }
 
 /* Accessible skip link */
@@ -156,4 +157,46 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   transform: translate(-50%, -75%);
   animation: wave 7s infinite linear;
   pointer-events: none;
+}
+
+/* CTA animated gradient and print stylesheet */
+.cta-gradient {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(90deg, rgba(59,130,246,1), rgba(34,211,238,0.95));
+  background-size: 200% 100%;
+  color: white;
+  transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+.cta-gradient .cta-label { position: relative; z-index: 2; }
+.cta-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.08) 100%);
+  transform: translateX(-110%);
+  transition: transform 650ms cubic-bezier(.2,.8,.2,1);
+  z-index: 1;
+  pointer-events: none;
+}
+.cta-gradient:hover::after { transform: translateX(110%); }
+.cta-gradient:active { transform: scale(0.98); }
+.cta-gradient:focus-visible {
+  outline: 3px solid rgba(59,130,246,0.25);
+  outline-offset: 4px;
+}
+
+@media print {
+  * { -webkit-print-color-adjust: exact; color-adjust: exact; }
+  html, body { background: #fff !important; color: #000 !important; }
+  nav, .skip-link, .pointer-events-none, footer, .water-fill-container, .water-fill-wave, .bg-glow, .text-glow, .animate-float, .animate-float-delayed { display: none !important; }
+  canvas, svg, video { display: none !important; }
+  a[href]:after { content: "" !important; }
+  main, .max-w-7xl { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0.5in !important; }
+  section { break-inside: avoid; page-break-inside: avoid; }
+  img { max-width: 100% !important; height: auto !important; }
+  h1, h2, h3, h4, p, li { color: #000 !important; }
+  /* Ensure resume download link is visible and print-friendly */
+  .water-fill-container, .cta-gradient { box-shadow: none !important; background: transparent !important; color: #000 !important; border: none !important; }
 }

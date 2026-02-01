@@ -17,8 +17,11 @@ const Projects = dynamic(() => import("./components/modern/Projects"), {
   loading: () => <div className="h-24 flex items-center justify-center">Loading projects...</div>,
 });
 import { FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
+import { useState } from "react";
 
 export default function Home() {
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(null);
   return (
     <main id="main-content" className="relative min-h-screen text-foreground selection:bg-primary/30">
       <HeroCanvas />
@@ -60,30 +63,79 @@ export default function Home() {
 
       <ModernSection id="contact" title="Get In Touch">
         <div className="max-w-4xl mx-auto">
-          {/* Contact Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
-                <FaMapMarkerAlt />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mb-12">
+            {/* Left: Contact Info Cards */}
+            <div className="flex flex-col h-full">
+              <div className="grid grid-cols-1 gap-6 mb-6">
+                <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
+                    <FaMapMarkerAlt />
+                  </div>
+                  <h4 className="text-white font-bold mb-2">Location</h4>
+                  <p className="text-foreground/60 text-sm">Gujrat, Punjab , Pakistan</p>
+                </div>
+
+                <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
+                    <FaEnvelope />
+                  </div>
+                  <h4 className="text-white font-bold mb-2">Email</h4>
+                  <p className="text-foreground/60 text-sm truncate w-full">mirzazan3334@gmail.com</p>
+                </div>
+
+                <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
+                    <FaPhone />
+                  </div>
+                  <h4 className="text-white font-bold mb-2">Phone</h4>
+                  <p className="text-foreground/60 text-sm">+92-322-6409363</p>
+                </div>
               </div>
-              <h4 className="text-white font-bold mb-2">Location</h4>
-              <p className="text-foreground/60 text-sm">Gujrat, Punjab , Pakistan</p>
             </div>
 
-            <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
-                <FaEnvelope />
-              </div>
-              <h4 className="text-white font-bold mb-2">Email</h4>
-              <p className="text-foreground/60 text-sm truncate w-full">mirzazan3334@gmail.com</p>
-            </div>
-
-            <div className="glass-morphism p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 group flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl mb-4 group-hover:scale-110 transition-transform">
-                <FaPhone />
-              </div>
-              <h4 className="text-white font-bold mb-2">Phone</h4>
-              <p className="text-foreground/60 text-sm">+92-322-6409363</p>
+            {/* Right: Contact Form */}
+            <div className="h-full">
+              <form id="contact-form" className="glass-morphism p-6 rounded-2xl border border-white/5 h-full flex flex-col" onSubmit={async (e) => {
+                e.preventDefault();
+                const f = e.target;
+                const data = {
+                  name: f.name.value.trim(),
+                  email: f.email.value.trim(),
+                  message: f.message.value.trim(),
+                  company: f.company?.value || ""
+                };
+                setSubmitting(true);
+                setSuccess(null);
+                try {
+                  const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                  const json = await res.json();
+                  if (res.ok && json.ok) {
+                    setSuccess(true);
+                    f.reset();
+                  } else {
+                    setSuccess(false);
+                  }
+                } catch (err) {
+                  setSuccess(false);
+                } finally {
+                  setSubmitting(false);
+                }
+              }}>
+                <input type="text" name="company" className="hidden" autoComplete="off" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input name="name" required placeholder="Your name" className="w-full px-4 py-3 rounded-lg bg-slate-900/40 border border-white/5" />
+                  <input name="email" type="email" required placeholder="Your email" className="w-full px-4 py-3 rounded-lg bg-slate-900/40 border border-white/5" />
+                </div>
+                <div className="flex-1 mt-2">
+                  <textarea name="message" rows="6" required placeholder="How can I help?" className="w-full h-full px-4 py-3 rounded-lg bg-slate-900/40 border border-white/5 resize-none" />
+                </div>
+                <div className="flex items-center gap-4 mt-4">
+                  <button type="submit" className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold shadow cta-gradient">
+                    <span className="cta-label">Send Message</span>
+                  </button>
+                  <span className="text-sm text-foreground/70">{submitting ? 'Sending...' : success === true ? 'Message sent — thanks!' : success === false ? 'Failed to send.' : ''}</span>
+                </div>
+              </form>
             </div>
           </div>
 
