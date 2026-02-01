@@ -4,7 +4,11 @@ import Navbar from "./components/modern/Navbar";
 import HeroSection from "./components/modern/HeroSection";
 import ModernSection from "./components/modern/ModernSection";
 import Experience from "./components/modern/Experience";
-import SkillsGlobe from "./components/modern/SkillsGlobe";
+import dynamic from "next/dynamic";
+const SkillsGlobe = dynamic(() => import("./components/modern/SkillsGlobe"), {
+  ssr: false,
+  loading: () => <div className="h-64 md:h-96 flex items-center justify-center">Loading skills...</div>,
+});
 import Projects from "./components/modern/Projects";
 import { FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
 
@@ -23,14 +27,14 @@ export default function Home() {
       <ModernSection id="about" title="About Me">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <p className="text-lg leading-relaxed text-foreground/70">
-            I'm a passionate <span className="text-white font-semibold">Full-Stack Developer</span> based in Pakistan, 
-            currently pursuing a Bachelor's in <span className="text-primary italic">Computer Science</span>. 
+            I&apos;m a passionate <span className="text-white font-semibold">Full-Stack Developer</span> based in Pakistan,
+            currently pursuing a Bachelor&apos;s in <span className="text-primary italic">Computer Science</span>.
             I love building scalable web applications and exploring the latest technologies.
             My focus is on creating clean, efficient code and delivering exceptional user experiences.
           </p>
           <div className="glass-morphism p-8 rounded-2xl border-l-4 border-primary">
              <p className="italic text-foreground/80">
-               "Committed to writing clean, maintainable code and contributing to open-source projects to develop scalable and high-performance solutions."
+               Committed to writing clean, maintainable code and contributing to open-source projects to develop scalable and high-performance solutions.
              </p>
           </div>
         </div>
@@ -78,10 +82,10 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Let's Build Something Together</h3>
+            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Let&apos;s Build Something Together</h3>
             <p className="text-foreground/70 mb-10 text-lg">
-              I'm currently looking for new opportunities and my inbox is always open. 
-              Whether you have a question or just want to say hi, I'll try my best to get back to you!
+              I&apos;m currently looking for new opportunities and my inbox is always open.
+              Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you!
             </p>
             <a 
               href="mailto:mirzazan3334@gmail.com" 

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
 import {
   FaUser,
@@ -45,88 +45,7 @@ export default function Resume() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    // Check if mobile device
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // Initial check
-    checkMobile();
-
-    // Add resize listener
-    window.addEventListener("resize", checkMobile);
-
-    // Add particle effect styles (only for desktop)
-    if (!isMobile) {
-      const style = document.createElement("style");
-      style.textContent = `
-        @keyframes slideDown {
-          from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-          to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateX(-50%) translateY(0); opacity: 1; }
-          to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
-
-      // Add click particle effect (only for desktop)
-      const handleClick = (e) => {
-        createParticleEffect(e.clientX, e.clientY);
-      };
-
-      document.addEventListener("click", handleClick);
-      return () => {
-        document.removeEventListener("click", handleClick);
-        window.removeEventListener("resize", checkMobile);
-      };
-    }
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, [isMobile]);
-
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
-
-  const copyToClipboard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      showNotification(`Copied: ${text}`);
-    } catch (err) {
-      showNotification("Could not copy to clipboard");
-    }
-  };
-
-  const showNotification = (message) => {
-    const notification = document.createElement("div");
-    notification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 25px;
-      font-weight: 500;
-      z-index: 1001;
-      animation: slideDown 0.3s ease-out;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-
-    setTimeout(() => {
-      notification.style.animation = "slideUp 0.3s ease-out";
-      setTimeout(() => notification.remove(), 300);
-    }, 2000);
-  };
-
-  const createParticleEffect = (x, y) => {
+  const createParticleEffect = useCallback((x, y) => {
     // Only create particles on desktop
     if (isMobile) return;
 
@@ -172,7 +91,89 @@ export default function Resume() {
 
       requestAnimationFrame(animate);
     }
+  }, [isMobile]);
+
+  useEffect(() => {
+    // Check if mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile);
+
+    // Add particle effect styles (only for desktop)
+    if (!isMobile) {
+      const style = document.createElement("style");
+      style.textContent = `
+        @keyframes slideDown {
+          from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+          to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateX(-50%) translateY(0); opacity: 1; }
+          to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Add click particle effect (only for desktop)
+      const handleClick = (e) => {
+        createParticleEffect(e.clientX, e.clientY);
+      };
+
+      document.addEventListener("click", handleClick);
+      return () => {
+        document.removeEventListener("click", handleClick);
+        window.removeEventListener("resize", checkMobile);
+      };
+    }
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, [isMobile, createParticleEffect]);
+
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
   };
+
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      showNotification(`Copied: ${text}`);
+    } catch (err) {
+      showNotification("Could not copy to clipboard");
+    }
+  };
+
+  const showNotification = (message) => {
+    const notification = document.createElement("div");
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 25px;
+      font-weight: 500;
+      z-index: 1001;
+      animation: slideDown 0.3s ease-out;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.animation = "slideUp 0.3s ease-out";
+      setTimeout(() => notification.remove(), 300);
+    }, 2000);
+  };
+
 
   const contactItems = [
     {

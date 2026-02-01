@@ -271,6 +271,9 @@ function SkillsWeb({ activeCategory, position = [0, 0, 0], scale = 1 }) {
 export default function SkillsGlobe() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isTabVisible, setIsTabVisible] = useState(true);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -278,18 +281,38 @@ export default function SkillsGlobe() {
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+
+    // Observe visibility of the container to pause rendering when off-screen
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => setIsVisible(entry.isIntersecting));
+      },
+      { threshold: 0.15 }
+    );
+    const current = containerRef.current;
+    if (current) obs.observe(current);
+
+    // Track page/tab visibility
+    const handleVisibility = () => setIsTabVisible(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      if (current) obs.unobserve(current);
+    };
   }, []);
 
   return (
-    <div className="relative w-full min-h-[500px] md:h-[650px] mt-10 md:mt-32 overflow-visible rounded-3xl group px-4 pb-10 md:pb-20">
+    <div ref={containerRef} className="relative w-full min-h-[500px] md:h-[650px] mt-10 md:mt-32 overflow-visible rounded-3xl group px-4 pb-10 md:pb-20">
       {/* Background Effect - Only for Desktop */}
       <div className="hidden md:block absolute inset-x-0 inset-y-[-50px] bg-black/40 z-0 rounded-[3rem] pointer-events-none" />
       
       {!isMobile ? (
         <Canvas 
+          frameloop={isVisible && isTabVisible ? "always" : "demand"}
           camera={{ position: [-0.5, 0, 8], fov: 45 }} 
-          dpr={[1, 2]} 
+          dpr={[1, 1.5]} 
           style={{ overflow: 'visible', height: '100%', pointerEvents: 'auto' }}
         >
           <Suspense fallback={null}>
@@ -339,7 +362,7 @@ export default function SkillsGlobe() {
         </div>
       )}
 
-      <div className="hidden md:flex absolute inset-0 pointer-events-none p-8 flex flex-col justify-between">
+      <div className="hidden md:flex absolute inset-0 pointer-events-none p-8 flex-col justify-between">
         <div className="flex justify-between items-start">
              <CategoryButton 
                label="BACKEND" 
