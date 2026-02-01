@@ -13,8 +13,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
- title: "Zain Imran - MERN Stack Developer",
-  description: "Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast"
+  title: "Zain Imran - MERN Stack Developer",
+  description: "Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast",
+  openGraph: {
+    title: "Zain Imran - MERN Stack Developer",
+    description: "Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast",
+    url: "https://zain-imran-resume.vercel.app",
+    siteName: "Zain Imran",
+    images: [
+      {
+        url: "https://zain-imran-resume.vercel.app/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "Zain Imran - Resume",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zain Imran - MERN Stack Developer",
+    description: "Full-Stack Web Developer | Next.js, MongoDB, MERN Stack Enthusiast",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -24,6 +45,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <CustomCursor />
         {children}
       </body>

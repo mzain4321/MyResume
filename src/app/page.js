@@ -3,18 +3,24 @@ import HeroCanvas from "./components/modern/HeroCanvas";
 import Navbar from "./components/modern/Navbar";
 import HeroSection from "./components/modern/HeroSection";
 import ModernSection from "./components/modern/ModernSection";
-import Experience from "./components/modern/Experience";
 import dynamic from "next/dynamic";
+const Experience = dynamic(() => import("./components/modern/Experience"), {
+  ssr: false,
+  loading: () => <div className="h-24 flex items-center justify-center">Loading experience...</div>,
+});
 const SkillsGlobe = dynamic(() => import("./components/modern/SkillsGlobe"), {
   ssr: false,
   loading: () => <div className="h-64 md:h-96 flex items-center justify-center">Loading skills...</div>,
 });
-import Projects from "./components/modern/Projects";
+const Projects = dynamic(() => import("./components/modern/Projects"), {
+  ssr: false,
+  loading: () => <div className="h-24 flex items-center justify-center">Loading projects...</div>,
+});
 import { FaPaperPlane, FaGithub, FaLinkedin, FaTwitter, FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen text-foreground selection:bg-primary/30">
+    <main id="main-content" className="relative min-h-screen text-foreground selection:bg-primary/30">
       <HeroCanvas />
       <Navbar />
       

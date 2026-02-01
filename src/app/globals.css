@@ -26,6 +26,39 @@ body {
   overflow-x: hidden;
 }
 
+/* Smooth scrolling and anchor offset to account for fixed navbar */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ensure sections with IDs are visible when navigated to (nav offset) */
+section[id] {
+  scroll-margin-top: 88px;
+}
+
+/* Accessible skip link */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-120%);
+  background: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  z-index: 9999;
+  border-bottom-right-radius: 6px;
+}
+.skip-link:focus, .skip-link:active {
+  transform: translateY(0%);
+  outline: 3px solid rgba(59,130,246,0.4);
+}
+
+/* Focus styles for keyboard users */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid rgba(59,130,246,0.45);
+  outline-offset: 3px;
+}
+
 .glass-morphism {
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(12px);
